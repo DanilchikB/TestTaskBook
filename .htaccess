@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    RewriteBase /
+
+    RewriteCond %{REQUEST_URI} ^/public/(.*)\.(css|js)$
+    RewriteRule ^(.*)$ web/$1 [L]
+
+    RewriteCond %{REQUEST_URI} !^/web/public/(.*)\.(css|js)$
+    RewriteRule ^ web/test.php [L]
+</IfModule>

@@ -1,6 +1,8 @@
 <?php
 namespace Core;
 
+use Core\Setting;
+
 class Controller{
     private $files=[];
 
@@ -8,7 +10,7 @@ class Controller{
     public function initControllers(string $dir){
         $this->getControllers($dir);
         foreach($this->files as $value){
-            require_once dirname($_SERVER['DOCUMENT_ROOT']).'/app/controller/'.$value;
+            require_once Setting::$app['path_app'].'/app/controller/'.$value;
         } 
     }
 
