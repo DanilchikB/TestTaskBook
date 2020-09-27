@@ -7,8 +7,8 @@ use Core\Setting;
 use PDO;
 use PDOException;
 
-abstract class Model{
-    private $connectData = null;
+/*abstract*/ class Model{
+    private $connectData = [];
     protected $dbconnection = null;
 
     
@@ -30,7 +30,7 @@ abstract class Model{
         return false;
     }
 
-    protected function queryOneRowReturn(string $query, array $data){
+    /*protected*/public function queryOneRowReturn(string $query, array $data){
         if($query != '' || $query != null){
             $result = $this->openAndCloseConnection(function() use ($query, $data){
                     $preparation=$this->dbconnection->prepare($query);
@@ -51,8 +51,8 @@ abstract class Model{
     
     protected function openAndCloseConnection($function){
         try {
-            $this->formationOfConnection();
-            $this->dbconnection = new PDO($this->connectData);
+            //$this->formationOfConnection();
+            $this->dbconnection = new PDO('mysql:host=localhost;dbname=test', 'root', '');
 
             $result = $function();
 
@@ -64,14 +64,14 @@ abstract class Model{
         }
     }
 
-    private function formationOfConnection(){
+    /*private function formationOfConnection(){
         if($this->connectData === null){
             $settings = Setting::$db;
-            $this->connectData = 'mysql:host='.$settings['host'].';
+            $this->connectData = ['mysql:host'.$settings['host'].';
                                   port='.$settings['port'].';
                                   dbname='.$settings['dbname'].';
                                   user='.$settings['user'].';
-                                  password='.$settings['password'];
+                                  password='.$settings['password']];
         }
-    }
+    }*/
 }

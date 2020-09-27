@@ -2,8 +2,8 @@
 
 return [
     'host' => 'mysql',
-    'port' => '5432',
-    'dbname' => 'testdb',
+    'port' => '3306',
+    'dbname' => 'test',
     'user' => 'testuser',
     'password' => 'test',
 ];
