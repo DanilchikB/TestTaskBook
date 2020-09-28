@@ -12,7 +12,7 @@ Router::add('/', function(){
 Router::add('/test', function(){
     //phpinfo();
     $model=new Model();
-    $result = $model->queryOneRowReturn('SELECT username FROM admin WHERE id = ?', 
+    $result = $model->queryAllReturn('SELECT * FROM admin WHERE id = ?', 
             array(1));
     return var_dump($result);
 });

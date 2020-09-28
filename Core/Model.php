@@ -8,7 +8,7 @@ use PDO;
 use PDOException;
 
 /*abstract*/ class Model{
-    private $connectData = [];
+    //private $connectData = [];
     protected $dbconnection = null;
 
     
@@ -48,11 +48,29 @@ use PDOException;
         return null;
     }
 
+    /*protected*/public function queryAllReturn(string $query, array $data){
+        if($query != '' || $query != null){
+            $result = $this->openAndCloseConnection(function() use ($query, $data){
+                    $preparation=$this->dbconnection->prepare($query);
+                    $preparation->execute($data);
+                    $result = $preparation->fetchAll(PDO::FETCH_ASSOC);
+                    $preparation = null;
+                    
+                    return $result;
+                }
+            );
+            return $result;
+        }
+        return null;
+    }
+
     
     protected function openAndCloseConnection($function){
         try {
             //$this->formationOfConnection();
-            $this->dbconnection = new PDO('mysql:host=localhost;dbname=test', 'root', '');
+            $this->dbconnection = new PDO('mysql:host='.Setting::$db['host'].';dbname='.Setting::$db['dbname'], 
+                Setting::$db['user'], 
+                Setting::$db['password']);
 
             $result = $function();
 
