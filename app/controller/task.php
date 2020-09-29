@@ -2,22 +2,30 @@
 
 use Core\Router;
 use Core\View;
-use Core\Model;
+use Core\Form;
 
 
 Router::add('/', function(){
 
-    $content = Array('title'=>'List tasks');
+    $content = Array('title'=>'List tasks',
+                     );
     return View::render('index',$content);
 });
 
 Router::add('/create', function(){
     
-    $content = Array('title'=>'List tasks');
+    $content = Array('title'=>'Create task');
     return View::render('create',$content);
 });
 Router::add('/task/create', function(){
-    var_dump($_POST);
+    $username = Form::linePreparation($_POST['username']);
+    $email = Form::linePreparation($_POST['email']);
+    $text = Form::linePreparation($_POST['text']);
+    if($username == ''){
+        
+    }
+
+    
 });
 
 
