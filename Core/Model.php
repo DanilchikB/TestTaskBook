@@ -7,7 +7,7 @@ use Core\Setting;
 use PDO;
 use PDOException;
 
-/*abstract*/ class Model{
+abstract class Model{
     //private $connectData = [];
     protected $dbconnection = null;
 
@@ -30,7 +30,7 @@ use PDOException;
         return false;
     }
 
-    /*protected*/public function queryOneRowReturn(string $query, array $data){
+    protected function queryOneRowReturn(string $query, array $data){
         if($query != '' || $query != null){
             $result = $this->openAndCloseConnection(function() use ($query, $data){
                     $preparation=$this->dbconnection->prepare($query);
@@ -48,7 +48,7 @@ use PDOException;
         return null;
     }
 
-    /*protected*/public function queryAllReturn(string $query, array $data){
+    protected function queryAllReturn(string $query, array $data){
         if($query != '' || $query != null){
             $result = $this->openAndCloseConnection(function() use ($query, $data){
                     $preparation=$this->dbconnection->prepare($query);
