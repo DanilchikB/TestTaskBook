@@ -3,9 +3,15 @@
 use Core\Router;
 use Core\View;
 use Core\Form;
+use app\model\TaskModel;
 
 
 Router::add('/', function(){
+
+    $task = new TaskModel();
+    echo '<pre>';
+    var_dump($task->getTasks());
+    echo '</pre>';
 
     $content = Array('title'=>'List tasks',
                      );
@@ -21,10 +27,12 @@ Router::add('/task/create', function(){
     $username = Form::linePreparation($_POST['username']);
     $email = Form::linePreparation($_POST['email']);
     $text = Form::linePreparation($_POST['text']);
-    if($username == ''){
-        
+    if($username == '' && $email == '' && $text == ''){
+        return 'fail';
     }
-
+    $task = new TaskModel();
+    $task->createTask(Array($username, $email, $text));
+    header('Location: /');
     
 });
 

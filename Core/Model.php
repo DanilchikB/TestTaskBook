@@ -48,7 +48,7 @@ abstract class Model{
         return null;
     }
 
-    protected function queryAllReturn(string $query, array $data){
+    protected function queryAllReturn(string $query, array $data=null){
         if($query != '' || $query != null){
             $result = $this->openAndCloseConnection(function() use ($query, $data){
                     $preparation=$this->dbconnection->prepare($query);
