@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS tasks(
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    text TEXT NOT NULL
+    text TEXT NOT NULL,
+    completed BOOLEAN DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS admin(

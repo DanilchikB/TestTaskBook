@@ -1,1 +1,2 @@
-<p>List tasks</p>
+
+<?php var_dump($tasks)?>

@@ -9,12 +9,10 @@ use app\model\TaskModel;
 Router::add('/', function(){
 
     $task = new TaskModel();
-    echo '<pre>';
-    var_dump($task->getTasks());
-    echo '</pre>';
+    $data = $task->getTasks();
 
     $content = Array('title'=>'List tasks',
-                     );
+                     'tasks'=> $data);
     return View::render('index',$content);
 });
 
@@ -36,16 +34,3 @@ Router::add('/task/create', function(){
     
 });
 
-
-    // Router::add('/test', function(){
-    //     //phpinfo();
-    //     $model=new Model();
-    //     $result = $model->queryAllReturn('SELECT * FROM admin WHERE id = ?', 
-    //             array(1));
-    //     return var_dump($result);
-    // });
-    // if(array_key_exists('status', $_GET)){
-    //     if($_GET['status']=='success'){
-    //         $checkStatus = true;
-    //     }
-    // }
