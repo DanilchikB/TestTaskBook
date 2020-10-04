@@ -3,9 +3,9 @@
 <div class="cards">
 <div class="text-center mt-4">
     <div class="btn-group">
-    <button type="button" class="btn btn-secondary">Username</button>
-    <button type="button" class="btn btn-secondary">Email</button>
-    <button type="button" class="btn btn-secondary">Compteted</button>
+    <button type="button" data-type="sort" data-name="username" class="btn btn-secondary sort-button">Username<span></span></button>
+    <button type="button" data-type="sort" data-name="email" class="btn btn-secondary sort-button">Email<span></span></button>
+    <button type="button" data-type="sort" data-name="completed" class="btn btn-secondary sort-button">Completed<span></span></button>
     </div>
 </div>
 <div id = "cards-task">
@@ -36,7 +36,7 @@
     <nav class="btn-group">
     <ul class="pagination">
         <?php for($i=1;$i<=$countPages;$i++){?>
-        <li id ="pagination-<?=$i?>" data-id="<?=$i?>" class="page-item pagination-button 
+        <li id ="pagination-<?=$i?>" data-type="page" data-id="<?=$i?>" class="page-item pagination-button 
         <?php if($i===$current) echo 'current-page'?>">
             <button  class="page-link">
             <?=$i?>

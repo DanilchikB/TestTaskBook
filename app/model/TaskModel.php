@@ -15,14 +15,9 @@ class TaskModel extends Model{
         }
     }
 
-    /*public function getTasks(int $limit):array{
-        $params = Array($this->getParam(':limit',$limit));
-        $result = $this->queryAllReturnParams('SELECT id, username, email, text, completed FROM tasks LIMIT :limit', $params); 
-        return $result;
-    }*/
 
     public function getTasksSorted(int $start,int $limit, string $sort, bool $DESC = false):?array{
-        $columns = Array('username', 'email', 'comleted');
+        $columns = Array('username', 'email', 'completed', 'id');
         if(!in_array($sort, $columns, true)){
             return null;
         }

@@ -14,8 +14,20 @@ Router::add('/', function(){
     }else{
         $current=(int)$_GET['page'];
     }
+    if(!array_key_exists('sort', $_GET)){
+        $sort = 'id';
+    }else{
+        $sort = $_GET['sort'];
+    }
+    if(!array_key_exists('asc', $_GET)){
+        $asc = true;
+    }else if($_GET['asc']=='true'){
+        $asc = false;
+    }else{
+        $asc = true;
+    }
     $task = new TaskModel();
-    $data = $task->getTasksSorted(($current-1)*3, 3, 'email', true);
+    $data = $task->getTasksSorted(($current-1)*3, 3, $sort, $asc);
     $pagination = new Pagination(3);
     $countPages = $pagination->getCountPages($task->getCountTasks());
     $content = Array('title'=>'List tasks',
@@ -27,10 +39,16 @@ Router::add('/', function(){
 });
 
 Router::add('/tasks', function():string{
+    if($_GET['asc']=='true'){
+        $asc = false;
+    }else{
+        $asc = true;
+    }
     $page = (int)$_GET['page'];
+    $sort = $_GET['sort'];
     $skip = ($page-1) * 3;
     $task = new TaskModel();
-    $data = $task->getTasksSorted($skip, 3, 'email', true);
+    $data = $task->getTasksSorted($skip, 3, $sort, $asc);
     return json_encode($data);
 });
 

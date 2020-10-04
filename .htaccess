@@ -7,5 +7,5 @@
     RewriteRule ^(.*)$ web/$1 [L]
 
     RewriteCond %{REQUEST_URI} !^/web/public/(.*)\.(css|js)$
-    RewriteRule ^ web/test.php [L]
+    RewriteRule ^ web/web.php [L]
 </IfModule>
