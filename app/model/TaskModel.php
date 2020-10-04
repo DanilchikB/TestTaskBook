@@ -4,8 +4,10 @@ namespace app\model;
 
 use ArrayAccess;
 use Core\Model;
+use PDO;
 
 class TaskModel extends Model{
+
     public function createTask(array $task){
         $status = $this->queryNoReturn('INSERT INTO tasks(username, email, text) VALUES (?,?,?)',$task); 
         if(!$status){
@@ -13,8 +15,24 @@ class TaskModel extends Model{
         }
     }
 
-    public function getTasks():array{
-        $result = $this->queryAllReturn('SELECT username, email, text, completed FROM tasks'); 
+    /*public function getTasks(int $limit):array{
+        $params = Array($this->getParam(':limit',$limit));
+        $result = $this->queryAllReturnParams('SELECT id, username, email, text, completed FROM tasks LIMIT :limit', $params); 
+        return $result;
+    }*/
+
+    public function getTasksSorted(int $start,int $limit, string $sort, bool $DESC = false):?array{
+        $columns = Array('username', 'email', 'comleted');
+        if(!in_array($sort, $columns, true)){
+            return null;
+        }
+        $sortType = '';
+        if($DESC){
+            $sortType = 'DESC';
+        }
+        $params = Array($this->getParam(':limit',$limit),
+                        $this->getParam(':skip',$start));
+        $result = $this->queryAllReturnParams('SELECT id, username, email, text, completed FROM tasks ORDER BY '.$sort.' '.$sortType.' LIMIT :skip, :limit', $params); 
         return $result;
     }
 
@@ -37,4 +55,9 @@ class TaskModel extends Model{
             echo 'Problems with update complete task';
         }
     }
+
+    public function getCountTasks():int{
+        return (int)($this->queryOneRowReturn('SELECT count(*) as count FROM tasks'))['count'];
+    }
+    
 }

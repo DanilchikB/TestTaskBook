@@ -30,7 +30,7 @@ abstract class Model{
         return false;
     }
 
-    protected function queryOneRowReturn(string $query, array $data){
+    protected function queryOneRowReturn(string $query, array $data=null){
         if($query != '' || $query != null){
             $result = $this->openAndCloseConnection(function() use ($query, $data){
                     $preparation=$this->dbconnection->prepare($query);
@@ -63,6 +63,27 @@ abstract class Model{
         }
         return null;
     }
+    protected function queryAllReturnParams(string $query, array $params=null){
+        if($query != '' || $query != null){
+            $result = $this->openAndCloseConnection(function() use ($query, $params){
+                    $preparation=$this->dbconnection->prepare($query);
+                    if($params!=null){
+                        foreach($params as $value){
+                            $preparation->bindParam($value['sql_var'],$value['value'],$value['pdo_type']);
+                        }
+                    }
+                    $preparation->execute();
+                    $result = $preparation->fetchAll(PDO::FETCH_ASSOC);
+                    $preparation = null;
+                    
+                    return $result;
+                }
+            );
+            return $result;
+        }
+        return null;
+    }
+
 
     
     protected function openAndCloseConnection($function){
@@ -81,7 +102,11 @@ abstract class Model{
             die();
         }
     }
-
+    protected function getParam(string $paramName, string $value):array{
+        return Array('sql_var' => $paramName, 
+        'value'=>$value,
+        'pdo_type'=>PDO::PARAM_INT);
+    }
     /*private function formationOfConnection(){
         if($this->connectData === null){
             $settings = Setting::$db;
