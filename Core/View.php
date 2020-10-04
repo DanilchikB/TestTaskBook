@@ -11,6 +11,10 @@ class View{
         $baseTemplatePath = $tamplatePath.$baseTemplate.'.php';
         $templatePath = $tamplatePath.$tamplate.'.php';
         $content = '';
+        if(isset($_SESSION['auth'])){
+            $auth = $_SESSION['auth'];
+        }
+        
         if($data!==null){
             extract($data);
         }

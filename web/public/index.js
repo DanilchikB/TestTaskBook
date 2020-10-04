@@ -43,6 +43,7 @@ function Tasks(){
     this.cards=null;
     this.sortArr=['username','email','complated'];
     this.url='/tasks';
+    this.update = false;
 
     this.init=function(){
         this.initCards();
@@ -50,6 +51,7 @@ function Tasks(){
         this.initSortButtons();
         this.getURLGET();
         this.initCurrentPage();
+        this.checkUpdate();
         
     };
 
@@ -69,12 +71,19 @@ function Tasks(){
         this.cards = document.getElementById('cards-task');
     };
     this.initCurrentPage=function(){
-        if(this.page === -1){ 
-            this.current = document.getElementsByClassName('current-page')[0];
+        this.current = document.getElementById('pagination-'+this.page);
+        if(this.current != null){
             this.current.classList.add('active');
+        }
+        
+    };
+    this.checkUpdate=function(){
+        let update = document.getElementsByClassName('update-button');
+        console.log(update);
+        if(update.length===0){
+            this.update = false;
         }else{
-            this.current = document.getElementById('pagination-'+this.page);
-            this.current.classList.add('active');
+            this.update = true;
         }
     };
 
@@ -121,15 +130,20 @@ function Tasks(){
     this.changeElements=function(data){
         for (let i = 0; i < data.length; i++) {
             let completed = (data[i]['completed'] === '0')? '&#10060;' : '&#9989;';
+            let updateButton;
+            if(this.update){
+                updateButton = '<a class="btn btn-warning update-button" href="/update?id='+data[i]['id']+'">Update</a>';
+            }
             let html = `
             <div class="card border-dark mt-4 card-task">
                 <div class="card-header">
-                    <div>`+completed+`</div>
-                    <div>`+data[i]['username']+`</div>
+                    <span>`+completed+`</span>
+                    <span>`+data[i]['username']+`</span>
                 </div>
                 <div class="card-body text-dark">
                     <h5 class="card-title">`+data[i]['email']+`</h5>
                     <p class="card-text">`+data[i]['text']+`</p>
+                    `+updateButton+`
                 </div>
             </div>`;
             this.cards.insertAdjacentHTML('beforeend',html);

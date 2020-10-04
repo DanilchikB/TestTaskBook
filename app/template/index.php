@@ -12,21 +12,24 @@
 <?php foreach($tasks as $value){?>
     <div class="card border-dark mt-4 card-task">
         <div class="card-header">
-            <div>
+            <span>
             <?php if($value['completed'] === '0'){
                 echo '&#10060;';
             }else{
                 echo '&#9989;';
             }
             ?>
-            </div>
-            <div>
+            </span>
+            <span>
             <?=$value['username']?>
-            </div>
+            </span>
         </div>
         <div class="card-body text-dark">
             <h5 class="card-title"><?=$value['email']?></h5>
             <p class="card-text"><?=$value['text']?></p>
+            <?php if(isset($auth) && $auth){?>
+            <a class="btn btn-warning update-button" href="/update?id=<?=$value['id']?>">Update</a>
+            <?php }?>
         </div>
     </div>
 <?php }?>
@@ -36,8 +39,7 @@
     <nav class="btn-group">
     <ul class="pagination">
         <?php for($i=1;$i<=$countPages;$i++){?>
-        <li id ="pagination-<?=$i?>" data-type="page" data-id="<?=$i?>" class="page-item pagination-button 
-        <?php if($i===$current) echo 'current-page'?>">
+        <li id ="pagination-<?=$i?>" data-type="page" data-id="<?=$i?>" class="page-item pagination-button">
             <button  class="page-link">
             <?=$i?>
             </button>

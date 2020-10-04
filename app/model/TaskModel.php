@@ -41,7 +41,7 @@ class TaskModel extends Model{
         }
     }
 
-    public function updateCompletedTask(bool $completed, int $id){
+    public function updateCompletedTask(int $completed, int $id){
         $task = Array($completed, $id);
         $status = $this->queryNoReturn(
             'UPDATE tasks SET completed = ? WHERE id = ?',$task
@@ -53,6 +53,9 @@ class TaskModel extends Model{
 
     public function getCountTasks():int{
         return (int)($this->queryOneRowReturn('SELECT count(*) as count FROM tasks'))['count'];
+    }
+    public function getTask($id):array{
+        return $this->queryOneRowReturn('SELECT id, username, completed, email, text FROM tasks WHERE id = ?',Array($id));
     }
     
 }

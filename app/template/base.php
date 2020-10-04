@@ -16,7 +16,11 @@
                 <div class="navbar-nav">
                 <a class="nav-link active" href="/">Tasks</a>
                 <a class="nav-link active" href="/create">Create</a>
+                <?php if(isset($auth) && $auth){?>
+                <a class="nav-link active" href="/logout">Logout</a>
+                <?php }else{?>
                 <a class="nav-link active" href="/auth">Sign in</a>
+                <?php }?>
                 </div>
                 
             </div>
