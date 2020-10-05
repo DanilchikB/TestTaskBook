@@ -4,8 +4,8 @@ namespace Core;
 
 session_start();
 //show errors
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
+//error_reporting(E_ALL);
+//ini_set('display_errors', 'on');
 
 //include autoload
 require_once dirname(__DIR__).'/Core/autoload.php';

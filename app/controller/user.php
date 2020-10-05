@@ -3,7 +3,6 @@
 use Core\Router;
 use Core\View;
 use Core\Form;
-use app\model;
 use app\model\UserModel;
 
 Router::add('/auth', function(){
@@ -28,7 +27,6 @@ Router::add('/logout', function(){
 
 
 Router::add('/user/auth', function(){
-    var_dump($_POST);
 
     if(array_key_exists('username', $_POST) && 
         array_key_exists('password', $_POST)){

@@ -79,7 +79,6 @@ function Tasks(){
     };
     this.checkUpdate=function(){
         let update = document.getElementsByClassName('update-button');
-        console.log(update);
         if(update.length===0){
             this.update = false;
         }else{
