@@ -27,7 +27,7 @@ class TaskModel extends Model{
         }
         $params = Array($this->getParam(':limit',$limit),
                         $this->getParam(':skip',$start));
-        $result = $this->queryAllReturnParams('SELECT id, username, email, text, completed FROM tasks ORDER BY '.$sort.' '.$sortType.' LIMIT :skip, :limit', $params); 
+        $result = $this->queryAllReturnParams('SELECT id, username, email, text, completed, edit FROM tasks ORDER BY '.$sort.' '.$sortType.' LIMIT :skip, :limit', $params); 
         return $result;
     }
 
@@ -50,12 +50,28 @@ class TaskModel extends Model{
             echo 'Problems with update complete task';
         }
     }
+    public function updateEditTask(int $id, bool $edit){
+        $task = Array($edit, $id);
+        $status = $this->queryNoReturn(
+            'UPDATE tasks SET edit = ? WHERE id = ?',$task
+        ); 
+        if(!$status){
+            echo 'Problems with update complete task';
+        }
+    }
 
     public function getCountTasks():int{
         return (int)($this->queryOneRowReturn('SELECT count(*) as count FROM tasks'))['count'];
     }
     public function getTask($id):array{
         return $this->queryOneRowReturn('SELECT id, username, completed, email, text FROM tasks WHERE id = ?',Array($id));
+    }
+
+    public function checkTextTask(string $id, string $text){
+        return $this->queryOneRowReturn('SELECT
+                                        EXISTS(SELECT 1 FROM tasks WHERE id = ? and text = ?) AS check_text, 
+                                        EXISTS(SELECT 1 FROM tasks WHERE id = ? and edit = true) AS check_edit',
+        Array($id, $text,$id));
     }
     
 }

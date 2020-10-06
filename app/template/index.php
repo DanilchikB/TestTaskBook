@@ -23,6 +23,12 @@
             <span>
             <?=$value['username']?>
             </span>
+            <?php if($value['edit'] === '1'){?>
+                <span class="text-secondary float-right">
+                Edited
+            </span>
+            <?php }?>
+            
         </div>
         <div class="card-body text-dark">
             <h5 class="card-title"><?=$value['email']?></h5>

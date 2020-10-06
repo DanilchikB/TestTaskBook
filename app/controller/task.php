@@ -86,17 +86,42 @@ Router::add('/task/update',function(){
     if(!$_SESSION['auth']){
         header('Location: /');
     }
+    $completedCheck = false;
+    $textCheck = false;
+    $completed = -1;
+    $lastCompleted = (int)$_POST['last_completed'];
     $task=new TaskModel();
     if(isset($_POST['id'])){ 
+        $id = Form::linePreparation($_POST['id']);
+        
         if(isset($_POST['completed']) && $_POST['completed']=='1'){
-            $task->updateCompletedTask(1, $_POST['id']);
+            $completed = 1;
         }else{
-            $task->updateCompletedTask(0, $_POST['id']);
+            $completed = 0;
+        }
+        if( $lastCompleted != $completed){
+            $task->updateCompletedTask($completed, $id);
+            $completedCheck = true;
         }
         if(isset($_POST['text']) && $_POST['text']!=''){
-            $task->updateTextTask($_POST['text'], $_POST['id']);
+            $text = Form::linePreparation($_POST['text']);
+            $check = $task->checkTextTask($id, $text);
+            var_dump($check);
+            if($check['check_text'] == '0'){
+                $task->updateTextTask($text, $id);
+                $textCheck = true;
+                if($check['check_edit']=='0'){
+                    $task->updateEditTask($id, true);
+                }
+            }
+            
         }
-        header('Location: /update?id='.$_POST['id'].'&status=success');
+        if($textCheck || $completedCheck){
+            $status = 'success';
+        }else{
+            $status = 'noupdate';
+        }
+        header('Location: /update?id='.$id.'&status='.$status);
     }else{
         header('Location: /update');
     }

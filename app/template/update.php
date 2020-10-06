@@ -10,6 +10,7 @@
         <label for="validationComleted">Completed</label>
         <input type="checkbox" name="completed" id="validationComleted" value="1" 
         <?php if($task['completed']==='1'){echo 'checked';}?>>
+        <input type="hidden" name="last_completed" value="<?=$task['completed']?>">
         <input type="hidden" name="id" value="<?=$task['id']?>">
     </div>
     
