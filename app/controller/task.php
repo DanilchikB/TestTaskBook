@@ -106,7 +106,7 @@ Router::add('/task/update',function(){
         if(isset($_POST['text']) && $_POST['text']!=''){
             $text = Form::linePreparation($_POST['text']);
             $check = $task->checkTextTask($id, $text);
-            var_dump($check);
+            
             if($check['check_text'] == '0'){
                 $task->updateTextTask($text, $id);
                 $textCheck = true;
