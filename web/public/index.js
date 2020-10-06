@@ -129,16 +129,23 @@ function Tasks(){
     this.changeElements=function(data){
         for (let i = 0; i < data.length; i++) {
             let completed = (data[i]['completed'] === '0')? '&#10060;' : '&#9989;';
-            let updateButton;
+            let updateButton = '';
+            let editText = '';
             if(this.update){
                 updateButton = '<a class="btn btn-warning update-button" href="/update?id='+data[i]['id']+'">Update</a>';
+            }
+            if(data[i]['edit']=='1'){
+                editText = `<span class="text-secondary float-right">
+                Edited
+                </span>`;
             }
             let html = `
             <div class="card border-dark mt-4 card-task">
                 <div class="card-header">
                     <span>`+completed+`</span>
-                    <span>`+data[i]['username']+`</span>
-                </div>
+                    <span>`+data[i]['username']+`</span>`
+                    +editText+
+               `</div>
                 <div class="card-body text-dark">
                     <h5 class="card-title">`+data[i]['email']+`</h5>
                     <p class="card-text">`+data[i]['text']+`</p>
